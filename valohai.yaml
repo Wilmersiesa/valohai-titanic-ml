@@ -1,0 +1,23 @@
+- step:
+    name: Preprocess data
+    image: python:3.9-slim
+    command:
+      - pip install pandas scikit-learn
+      - python src/preprocess.py
+    inputs:
+      - name: train.csv
+        default: https://raw.githubusercontent.com/datasciencedojo/datasets/master/titanic.csv
+
+- step:
+    name: Train model
+    image: python:3.9-slim
+    command:
+      - pip install pandas scikit-learn joblib
+      - python src/train.py
+
+- step:
+    name: Evaluate model
+    image: python:3.9-slim
+    command:
+      - pip install pandas scikit-learn joblib
+      - python src/evaluate.py
