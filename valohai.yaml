@@ -4,7 +4,7 @@
     command:
       - python src/preprocess.py
     inputs:
-      - name: train.csv
+      - name: training_data  # Cambiamos el nombre aquí
         default: https://raw.githubusercontent.com/datasciencedojo/datasets/master/titanic.csv
 
 - step:
