@@ -1,22 +1,32 @@
 import pandas as pd
 import joblib
 import os
+import glob
 from sklearn.metrics import accuracy_score
 
 def evaluate():
-    input_path = os.getenv('VH_INPUTS_DIR', '.')
-    X = pd.read_csv(os.path.join(input_path, 'X_preprocessed.csv'))
-    y = pd.read_csv(os.path.join(input_path, 'y_preprocessed.csv'))
+    # 1. Buscamos los archivos usando glob para evitar errores de carpeta
+    x_path = glob.glob("/valohai/inputs/X_preprocessed.csv/*.csv")[0]
+    y_path = glob.glob("/valohai/inputs/y_preprocessed.csv/*.csv")[0]
+    model_path = glob.glob("/valohai/inputs/model.pkl/*.pkl")[0]
     
-    # Cargar modelo entrenado
-    model = joblib.load(os.path.join(input_path, 'model.pkl'))
+    print(f"Evaluando con: {x_path}")
+    print(f"Cargando modelo desde: {model_path}")
     
+    # 2. Cargar datos y modelo
+    X = pd.read_csv(x_path)
+    y = pd.read_csv(y_path)
+    model = joblib.load(model_path)
+    
+    # 3. Realizar predicciones
     predictions = model.predict(X)
     acc = accuracy_score(y, predictions)
     
-    # Valohai lee este JSON para mostrar gráficas
-    print(f'{{"accuracy": {acc}}}') 
-    print(f"Evaluación finalizada. Accuracy: {acc}")
+    # 4. Imprimir métricas en formato JSON (Valohai las captura automáticamente)
+    print(f'{{"accuracy": {acc}}}')
+    print(f"---")
+    print(f"Evaluación finalizada.")
+    print(f"Precisión del modelo (Accuracy): {acc * 100:.2f}%")
 
 if __name__ == "__main__":
     evaluate()
