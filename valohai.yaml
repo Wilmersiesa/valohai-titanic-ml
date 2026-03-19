@@ -1,8 +1,8 @@
 - step:
     name: Preprocess data
-    image: python:3.9-slim
+    image: amancevice/pandas:latest
     command:
-      - pip install pandas scikit-learn --timeout 60
+      - pip install scikit-learn --timeout 10 || true
       - python src/preprocess.py
     inputs:
       - name: train.csv
@@ -10,14 +10,14 @@
 
 - step:
     name: Train model
-    image: python:3.9-slim
+    image: amancevice/pandas:latest
     command:
-      - pip install pandas scikit-learn joblib --timeout 60
+      - pip install scikit-learn joblib --timeout 10 || true
       - python src/train.py
 
 - step:
     name: Evaluate model
-    image: python:3.9-slim
+    image: amancevice/pandas:latest
     command:
-      - pip install pandas scikit-learn joblib --timeout 60
+      - pip install scikit-learn joblib --timeout 10 || true
       - python src/evaluate.py
