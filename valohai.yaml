@@ -2,7 +2,7 @@
     name: Preprocess data
     image: python:3.9-slim
     command:
-      - pip install pandas scikit-learn
+      - pip install pandas scikit-learn --timeout 60
       - python src/preprocess.py
     inputs:
       - name: train.csv
@@ -12,12 +12,12 @@
     name: Train model
     image: python:3.9-slim
     command:
-      - pip install pandas scikit-learn joblib
+      - pip install pandas scikit-learn joblib --timeout 60
       - python src/train.py
 
 - step:
     name: Evaluate model
     image: python:3.9-slim
     command:
-      - pip install pandas scikit-learn joblib
+      - pip install pandas scikit-learn joblib --timeout 60
       - python src/evaluate.py
