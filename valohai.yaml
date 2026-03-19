@@ -4,7 +4,7 @@
     command:
       - python src/preprocess.py
     inputs:
-      - name: training_data  # Cambiamos el nombre aquí
+      - name: training_data
         default: https://raw.githubusercontent.com/datasciencedojo/datasets/master/titanic.csv
 
 - step:
@@ -12,9 +12,16 @@
     image: jupyter/scipy-notebook:latest
     command:
       - python src/train.py
+    inputs:
+      - name: X_preprocessed.csv
+      - name: y_preprocessed.csv
 
 - step:
     name: Evaluate model
     image: jupyter/scipy-notebook:latest
     command:
       - python src/evaluate.py
+    inputs:
+      - name: X_preprocessed.csv
+      - name: y_preprocessed.csv
+      - name: model.pkl
